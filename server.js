@@ -5,6 +5,7 @@ import logger from "./middlewares/logger.js";
 import notFound from "./middlewares/notFound.js";
 import errorHandler from "./middlewares/errorHandler.js";
 import productRoutes from "./routes/productRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 
 dotenv.config();
 const app = express();
@@ -16,6 +17,10 @@ connectDB();
 
 // product router :
 app.use("/api/products", productRoutes);
+
+// users router :
+app.use("/api/users", userRoutes);
+
 // Test route:
 app.get("/", (req, res) => {
     res.send("E-Market API is running ");
