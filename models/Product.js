@@ -6,8 +6,14 @@ const productSchema = new mongoose.Schema(
     description: { type: String },
     price: { type: Number, required: true },
     stock: { type: Number, default: 0 },
-    category: { type: String },
     imageUrl: { type: String },
+    
+       // Relation with Category :
+    category: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
+      required: true,
+    },
     deleted: { type: Boolean, default: false },
   },
   { timestamps: true }

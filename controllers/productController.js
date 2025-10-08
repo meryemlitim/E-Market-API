@@ -56,19 +56,24 @@ export const updateProduct = async (req, res) => {
   try {
     const productId = req.params.id;
 
-    const updetedProduct = await Product.findByIdAndUpdate(productId, {
-      title: req.body.title,
-      description: req.body.description,
-      price: req.body.price,
-      stock: req.body.stock,
-      category: req.body.category,
-      imageUrl: req.body.imageUrl,
-    },
-    {new : true}
-);
+    const updetedProduct = await Product.findByIdAndUpdate(
+      productId,
+      {
+        title: req.body.title,
+        description: req.body.description,
+        price: req.body.price,
+        stock: req.body.stock,
+        category: req.body.category,
+        imageUrl: req.body.imageUrl,
+      },
+      { new: true }
+    );
     if (!updetedProduct)
       return res.status(404).json({ message: "update faild" });
-     res.status(200).json({ message: "Product updated successfully", product: updetedProduct });
+    res.status(200).json({
+      message: "Product updated successfully",
+      product: updetedProduct,
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -90,5 +95,39 @@ export const deleteProduct = async (req, res) => {
     res.status(200).json({ message: "Product deleted successfully" });
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+};
+
+// search product :
+export const searchProduct = async (req, res) => {
+  const searchType = req.params.type;
+  const searchContent = req.params.content;
+
+  //   search product by name :
+  if (searchType === "name") {
+    const products = await Product.find().where("title").equals(searchContent);
+
+    return res.status(404).json({ type: products });
+  }
+  //   search product by category :
+
+  if (searchType === "category") {
+    const products = await Product.find()
+      .where("category")
+      .equals(searchContent);
+
+    return res.status(404).json({ type: products });
+  }
+  //   search product by min price :
+  if (searchType === "minPrice") {
+    const products = await Product.find({ price: { $lte: searchContent } });
+
+    return res.status(404).json({ type: products });
+  }
+  //   search product by max price :
+  if (searchType === "maxPrice") {
+    const products = await Product.find({ price: { $gte: searchContent } });
+
+    return res.status(404).json({ type: products });
   }
 };

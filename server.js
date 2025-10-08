@@ -5,7 +5,8 @@ import logger from "./middlewares/logger.js";
 import notFound from "./middlewares/notFound.js";
 import errorHandler from "./middlewares/errorHandler.js";
 import productRoutes from "./routes/productRoutes.js";
-import userRoutes from "./routes/userRoutes.js";
+import userRoutes from "./routes/userRoutes.js"; 
+import categoryRoutes from "./routes/caregoryRouter.js"; 
 
 dotenv.config();
 const app = express();
@@ -23,6 +24,9 @@ app.use("/api/products", productRoutes);
 
 // users router :
 app.use("/api/users", userRoutes);
+
+// categories router :
+app.use("/api/categories", categoryRoutes);
 
 // Test route:
 app.get("/", (req, res) => {
