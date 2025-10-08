@@ -18,11 +18,6 @@ connectDB();
 // logger Middleware:
 app.use(logger);
 
-// not found middleware: 
-app.use(notFound);
-
-// error Handler:
-app.use(errorHandler);
 // product router :
 app.use("/api/products", productRoutes);
 
@@ -33,14 +28,12 @@ app.use("/api/users", userRoutes);
 app.get("/", (req, res) => {
     res.send("E-Market API is running ");
 });
-// // logger Middleware:
-// app.use(logger);
 
 // // not found middleware: 
-// app.use(notFound);
+app.use(notFound);
 
 // // error Handler:
-// app.use(errorHandler);
+app.use(errorHandler);
 // DB Connection:
 
 // Start server
