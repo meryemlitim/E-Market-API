@@ -1,3 +1,6 @@
+
+---
+
 # 🛒 E-Market API
 
 A complete RESTful API built with **Node.js**, **Express**, and **MongoDB (Mongoose)** to manage products, categories, and users for an online marketplace.
@@ -6,60 +9,61 @@ A complete RESTful API built with **Node.js**, **Express**, and **MongoDB (Mongo
 
 ## 🚀 Features
 
-- 🧩 **Modular architecture** (Controllers, Routes, Models, Middlewares)
-- 💾 **MongoDB connection** using Mongoose
-- 👥 **User management** (CRUD)
-- 🏷️ **Category management**
-- 🛍️ **Product management**
-- 🔍 **Search API** for filtering products by category, name, or price
-- ⚙️ Custom middlewares for logging and error handling
-- 🌿 Environment variables with dotenv
+* 🧩 **Modular architecture** (Controllers, Routes, Models, Middlewares)
+* 💾 **MongoDB connection** using Mongoose
+* 👥 **User management** (CRUD)
+* 🏷️ **Category management**
+* 🛍️ **Product management**
+* 🔍 **Search API** for filtering products by category, name, or price
+* ⚙️ Custom middlewares for logging and error handling
+* 🌿 Environment variables with dotenv
 
 ---
 
 ## 🛠️ Technologies Used
 
-- Node.js  
-- Express.js  
-- MongoDB & Mongoose  
-- Dotenv  
-- Nodemon  
+* Node.js
+* Express.js
+* MongoDB & Mongoose
+* Dotenv
+* Nodemon
 
 ---
 
 ## 📦 Installation
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/yourusername/e-market-api.git
-   cd e-market-api
-````
+### 1️⃣ Clone the repository
 
-2. **Install dependencies**
+```bash
+git clone https://github.com/yourusername/e-market-api.git
+cd e-market-api
+```
 
-   ```bash
-   npm install
-   ```
+### 2️⃣ Install dependencies
 
-3. **Create a `.env` file**
+```bash
+npm install
+```
 
-   ```env
-   MONGO_URI=your_mongodb_connection_string
-   PORT=3000
-   ```
+### 3️⃣ Create a `.env` file
 
-4. **Run the server**
+```env
+MONGO_URI=your_mongodb_connection_string
+PORT=3000
+```
 
-   ```bash
-   npm run dev
-   ```
+### 4️⃣ Run the server
 
-   You should see:
+```bash
+npm run dev
+```
 
-   ```
-   Server running on port 3000
-   ✅ MongoDB connected
-   ```
+You should see:
+
+```
+Server running on port 3000
+✅ MongoDB connected
+```
 
 ---
 
@@ -67,14 +71,14 @@ A complete RESTful API built with **Node.js**, **Express**, and **MongoDB (Mongo
 
 ### 🛍️ Product Routes
 
-| Method | Endpoint                       | Description                                           |
-| ------ | ------------------------------ | ----------------------------------------------------- |
-| GET    | `/api/products`                | Get all products                                      |
-| GET    | `/api/products/:id`            | Get one product                                       |
-| POST   | `/api/products`                | Add new product                                       |
-| PUT    | `/api/products/:id`            | Update product                                        |
-| DELETE | `/api/products/:id`            | Delete product                                        |
-| GET    | `/api/products/:type/:content` | Search products (by name, category, min/max price) |
+| Method | Endpoint                              | Description                                        |
+| ------ | ------------------------------------- | -------------------------------------------------- |
+| GET    | `/api/products`                       | Get all products                                   |
+| GET    | `/api/products/:id`                   | Get one product                                    |
+| POST   | `/api/products`                       | Add new product                                    |
+| PUT    | `/api/products/:id`                   | Update product                                     |
+| DELETE | `/api/products/:id`                   | Delete product                                     |
+| GET    | `/api/products/search/:type/:content` | Search products (by name, category, min/max price) |
 
 ---
 
@@ -125,7 +129,7 @@ E-Market-API/
 │   └── User.js
 │
 ├── routes/
-│   ├── caregoryRouter.js
+│   ├── categoryRouter.js
 │   ├── productRoutes.js
 │   └── userRoutes.js
 │
@@ -151,7 +155,7 @@ Example Product (POST `/api/products`)
   "description": "Ergonomic mouse with USB receiver",
   "price": 25.99,
   "stock": 50,
-  "category": "Electronics",
+  "category": "68e6657c63f27acd6a29121a",
   "imageUrl": "https://example.com/mouse.jpg"
 }
 ```
@@ -160,18 +164,27 @@ Example Product (POST `/api/products`)
 
 ## 💡 Example Search Endpoint
 
-| Example URL                          | Description            |
-| ------------------------------------ | ---------------------- |
-| `/api/products/name/mouse`           | Search by product name |
-| `/api/products/category/electronics` | Search by category     |
-| `/api/products/max/100`              | Search by max price    |
-| `/api/products/min/10`               | Search by min price    |
+| Example URL                                 | Description            |
+| ------------------------------------------- | ---------------------- |
+| `/api/products/search/name/mouse`           | Search by product name |
+| `/api/products/search/category/electronics` | Search by category     |
+| `/api/products/search/max/100`              | Search by max price    |
+| `/api/products/search/min/10`               | Search by min price    |
+
+---
+
+## 📘 API Documentation (Swagger)
+
+Once your server is running, open:
+👉 **[http://localhost:5000/api-docs](http://localhost:5000/api-docs)**
+to view the full Swagger UI documentation.
 
 ---
 
 ## 👩‍💻 Author
 
 **Meryem Litim**
-💻 Full Stack Developer
-📧 litimmeryem2001@gmail.com
+📧 [litimmeryem2001@gmail.com]
+
+---
 
