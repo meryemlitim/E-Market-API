@@ -175,7 +175,7 @@ Example Product (POST `/api/products`)
 ## 📘 API Documentation (Swagger)
 
 Once your server is running, open:
-👉 **[http://localhost:5000/api-docs](http://localhost:5000/api-docs)**
+👉 **[http://localhost:3000/api-docs](http://localhost:3000/api-docs)**
 to view the full Swagger UI documentation.
 
 ---
