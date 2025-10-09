@@ -141,36 +141,30 @@ router.put("/:id", updateProduct);
 router.delete("/:id", deleteProduct);
 /**
  * @swagger
- * /api/products/{id}:
- *   put:
- *     summary: Update an existing product
+ * /api/products/search/{type}/{content}:
+ *   get:
+ *     summary: Search for products by category, name, max price, min price
  *     tags: [Products]
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: type
  *         required: true
- *         description: ID of the product to update
+ *         description: Type of search (e.g., category, name, max price, min price)
  *         schema:
  *           type: string
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               title:
- *                 type: string
- *                 example: "Updated Product Name"
- *               price:
- *                 type: number
- *                 example: 49.99
+ *       - in: path
+ *         name: content
+ *         required: true
+ *         description: The value to search for
+ *         schema:
+ *           type: string
  *     responses:
  *       200:
- *         description: Product successfully updated
+ *         description: Search completed successfully
  *       404:
- *         description: Product not found
+ *         description: No products found
  */
+
 router.get("/search/:type/:content", searchProduct);
 
 export default router;
