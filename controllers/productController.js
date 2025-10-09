@@ -4,6 +4,7 @@ import Product from "../models/Product.js";
 export const getProducts = async (req, res) => {
   try {
     const products = await Product.find().where("deleted").equals(false);
+    // const products = await Product.find({deleted: false}).populate("category");
     if (!products)
       return res.status(404).json({ message: "no Products found" });
     res.status(200).json(products);
@@ -28,7 +29,9 @@ export const getProductById = async (req, res) => {
 // Create product :
 export const createProduct = async (req, res) => {
   try {
-    const { title, price, description, category, stock, imageUrl } = req.body;
+    const { title, price, description, stock, imageUrl } = req.body;
+    const category =  Array.isArray(req.body.category) ? req.body.category : [req.body.category];
+
 
     if (!title || !price) {
       return res.status(400).json({ message: "Title and price are required" });
@@ -55,6 +58,9 @@ export const createProduct = async (req, res) => {
 export const updateProduct = async (req, res) => {
   try {
     const productId = req.params.id;
+    const category = Array.isArray(req.body.category)
+      ? req.body.category
+      : [req.body.category];
 
     const updetedProduct = await Product.findByIdAndUpdate(
       productId,
@@ -63,7 +69,7 @@ export const updateProduct = async (req, res) => {
         description: req.body.description,
         price: req.body.price,
         stock: req.body.stock,
-        category: req.body.category,
+        category,
         imageUrl: req.body.imageUrl,
       },
       { new: true }
@@ -112,9 +118,7 @@ export const searchProduct = async (req, res) => {
   //   search product by category :
 
   if (searchType === "category") {
-    const products = await Product.find()
-      .where("category")
-      .equals(searchContent);
+    const products = await Product.find({category: {$in: [searchContent]}});
 
     return res.status(404).json({ type: products });
   }

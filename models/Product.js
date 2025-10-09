@@ -9,11 +9,11 @@ const productSchema = new mongoose.Schema(
     imageUrl: { type: String },
     
        // Relation with Category :
-    category: {
+    category:[ {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
       required: true,
-    },
+    }],
     deleted: { type: Boolean, default: false },
   },
   { timestamps: true }
