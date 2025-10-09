@@ -1,5 +1,4 @@
 
----
 
 # 🛒 E-Market API
 
@@ -186,5 +185,4 @@ to view the full Swagger UI documentation.
 **Meryem Litim**
 📧 [litimmeryem2001@gmail.com]
 
----
 
