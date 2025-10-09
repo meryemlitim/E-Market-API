@@ -7,6 +7,10 @@ import errorHandler from "./middlewares/errorHandler.js";
 import productRoutes from "./routes/productRoutes.js";
 import userRoutes from "./routes/userRoutes.js"; 
 import categoryRoutes from "./routes/caregoryRouter.js"; 
+import swaggerUi from "swagger-ui-express";
+import swaggerJsdoc from "swagger-jsdoc";
+
+
 
 dotenv.config();
 const app = express();
@@ -32,6 +36,27 @@ app.use("/api/categories", categoryRoutes);
 app.get("/", (req, res) => {
     res.send("E-Market API is running ");
 });
+
+// Swagger setup
+const options = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "E-Market API",
+      version: "1.0.0",
+      description: "Documentation de l’API E-Market",
+    },
+    servers: [
+      {
+        url: "http://localhost:3000",
+      },
+    ],
+  },
+  apis: ["./routes/*.js"], 
+};
+
+const specs = swaggerJsdoc(options);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 // // not found middleware: 
 app.use(notFound);
