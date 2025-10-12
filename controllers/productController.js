@@ -1,40 +1,50 @@
 import Product from "../models/Product.js";
 
 // Get all products :
-export const getProducts = async (req, res) => {
+export const getProducts = async (req, res, next) => {
   try {
     const products = await Product.find().where("deleted").equals(false);
     // const products = await Product.find({deleted: false}).populate("category");
-    if (!products)
-      return res.status(404).json({ message: "no Products found" });
+    if (products.length === 0) {
+      const error = new Error("no Products found");
+      error.status = 404;
+      return next(error);
+    }
     res.status(200).json(products);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    next(err);
   }
 };
 
 // Get product by id :
-export const getProductById = async (req, res) => {
+export const getProductById = async (req, res, next) => {
   try {
     const product = await Product.findById(req.params.id)
       .where("deleted")
       .equals(false);
-    if (!product) return res.status(404).json({ message: "Product not found" });
+    if (!product) {
+      const error = new Error("no Products found");
+      error.status = 404;
+      return next(error);
+    }
     res.status(200).json(product);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    next(err);
   }
 };
 
 // Create product :
-export const createProduct = async (req, res) => {
+export const createProduct = async (req, res, next) => {
   try {
     const { title, price, description, stock, imageUrl } = req.body;
-    const category =  Array.isArray(req.body.category) ? req.body.category : [req.body.category];
-
+    const category = Array.isArray(req.body.category)
+      ? req.body.category
+      : [req.body.category];
 
     if (!title || !price) {
-      return res.status(400).json({ message: "Title and price are required" });
+      const error = new Error("Title and price are required");
+      error.status = 400;
+      return next(error);
     }
 
     const newProduct = new Product({
@@ -50,12 +60,12 @@ export const createProduct = async (req, res) => {
 
     res.status(201).json(newProduct);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    next(err);
   }
 };
 
 // Update product :
-export const updateProduct = async (req, res) => {
+export const updateProduct = async (req, res, next) => {
   try {
     const productId = req.params.id;
     const category = Array.isArray(req.body.category)
@@ -74,19 +84,22 @@ export const updateProduct = async (req, res) => {
       },
       { new: true }
     );
-    if (!updetedProduct)
-      return res.status(404).json({ message: "update faild" });
+    if (!updetedProduct) {
+      const error = new Error("Product not found");
+      error.status = 404;
+      return next(error);
+    }
     res.status(200).json({
       message: "Product updated successfully",
       product: updetedProduct,
     });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    next(err);
   }
 };
 
-// Delete product :
-export const deleteProduct = async (req, res) => {
+// Delete product (soft delete) :
+export const deleteProduct = async (req, res, next) => {
   try {
     const productId = req.params.id;
 
@@ -95,43 +108,51 @@ export const deleteProduct = async (req, res) => {
       { deleted: true },
       { new: true }
     );
-    // const deleteProduct = await Product.findByIdAndDelete(req.params.id);
-    if (!deleteProduct)
-      return res.status(404).json({ message: "Product not found" });
+    if (!deleteProduct) {
+      const error = new Error("Product not found");
+      error.status = 404;
+      return next(error);
+    }
     res.status(200).json({ message: "Product deleted successfully" });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    next(err);
   }
 };
 
 // search product :
-export const searchProduct = async (req, res) => {
-  const searchType = req.params.type;
-  const searchContent = req.params.content;
+export const searchProduct = async (req, res, next) => {
+  try {
+    const searchType = req.params.type;
+    const searchContent = req.params.content;
+    let products;
+    //   search product by name :
+    if (searchType === "name") {
+      products = await Product.find().where("title").equals(searchContent);
+    }
+    //   search product by category :
+    else if (searchType === "category") {
+      products = await Product.find({ category: { $in: [searchContent] } });
+    }
+    //   search product by min price :
+    else if (searchType === "minPrice") {
+      products = await Product.find({ price: { $lte: searchContent } });
+    }
+    //   search product by max price :
+    else if (searchType === "maxPrice") {
+      products = await Product.find({ price: { $gte: searchContent } });
+    } else {
+      const error = new Error("Invalid search type");
+      error.status = 400;
+      return next(error);
+    }
+    if (!products || products.length === 0) {
+      const error = new Error("No products found");
+      error.status = 404;
+      return next(error);
+    }
 
-  //   search product by name :
-  if (searchType === "name") {
-    const products = await Product.find().where("title").equals(searchContent);
-
-    return res.status(404).json({ type: products });
-  }
-  //   search product by category :
-
-  if (searchType === "category") {
-    const products = await Product.find({category: {$in: [searchContent]}});
-
-    return res.status(404).json({ type: products });
-  }
-  //   search product by min price :
-  if (searchType === "minPrice") {
-    const products = await Product.find({ price: { $lte: searchContent } });
-
-    return res.status(404).json({ type: products });
-  }
-  //   search product by max price :
-  if (searchType === "maxPrice") {
-    const products = await Product.find({ price: { $gte: searchContent } });
-
-    return res.status(404).json({ type: products });
+    res.status(200).json(products);
+  } catch (err) {
+    next(err);
   }
 };

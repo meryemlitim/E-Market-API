@@ -18,6 +18,7 @@ const app = express();
 // Middleware
 app.use(express.json());
 
+// DB Connection: 
 connectDB();
 
 // logger Middleware:
@@ -62,8 +63,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 app.use(notFound);
 
 // // error Handler:
-app.use(errorHandler);
-// DB Connection:
+app.use(errorHandler); 
 
 // Start server
 const PORT = process.env.PORT || 3000;
