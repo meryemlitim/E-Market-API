@@ -22,8 +22,8 @@ jobs:
         run: npm install
 
       - name: Deploy to Heroku
-        uses: heroku/github-actions@v2
+        uses: heroku/heroku-builds@v0.10.9
         with:
-          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-          heroku_app_name: "e-market-api-79257bd2c591"
-          heroku_email: "litimmeryem2001@gmail.com"
+          api_key: ${{ secrets.HEROKU_API_KEY }}
+          app_name: "e-market-api-79257bd2c591"
+          usedocker: false
