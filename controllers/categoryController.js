@@ -1,6 +1,6 @@
 import Category from "../models/Category.js";
 
-// Get all categories :
+// Get all categories  :
 export const getcategories = async (req, res, next) => {
   try {
     const categories = await Category.find();
