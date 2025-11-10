@@ -91,7 +91,7 @@ export const deleteUser = async (req, res, next) => {
     if (!deleteUser) {
       const error = new Error("user not found");
       error.status = 404;
-      return next(error);
+      return next(error); 
     }
     res.status(200).json({ message: "user deleted successfully" });
   } catch (err) {

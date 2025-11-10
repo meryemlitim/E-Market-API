@@ -1,10 +1,12 @@
 import Product from "../models/Product.js";
-
+import mongoose from "mongoose";
 // Get all products :
 export const getProducts = async (req, res, next) => {
   try {
-    const products = await Product.find().where("deleted").equals(false);
-    // const products = await Product.find({deleted: false}).populate("category");
+    // const products = await Product.find().where("deleted").equals(false);
+    const products = await Product.find({ deleted: false }).populate(
+      "category"
+    );
     if (products.length === 0) {
       const error = new Error("no Products found");
       error.status = 404;
@@ -68,6 +70,11 @@ export const createProduct = async (req, res, next) => {
 export const updateProduct = async (req, res, next) => {
   try {
     const productId = req.params.id;
+    if (!mongoose.Types.ObjectId.isValid(productId)) {
+      res.status(404).json({
+        message: "product not found",
+      });
+    }
     const category = Array.isArray(req.body.category)
       ? req.body.category
       : [req.body.category];

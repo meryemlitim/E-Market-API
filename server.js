@@ -5,12 +5,10 @@ import logger from "./middlewares/logger.js";
 import notFound from "./middlewares/notFound.js";
 import errorHandler from "./middlewares/errorHandler.js";
 import productRoutes from "./routes/productRoutes.js";
-import userRoutes from "./routes/userRoutes.js"; 
-import categoryRoutes from "./routes/caregoryRouter.js"; 
+import userRoutes from "./routes/userRoutes.js";
+import categoryRoutes from "./routes/caregoryRouter.js";
 import swaggerUi from "swagger-ui-express";
 import swaggerJsdoc from "swagger-jsdoc";
-
-
 
 dotenv.config();
 const app = express();
@@ -18,7 +16,7 @@ const app = express();
 // Middleware
 app.use(express.json());
 
-// DB Connection: 
+// DB Connection:
 connectDB();
 
 // logger Middleware:
@@ -35,7 +33,7 @@ app.use("/api/categories", categoryRoutes);
 
 // Test route:
 app.get("/", (req, res) => {
-    res.send("E-Market API is running ");
+  res.send("E-Market API is running ");
 });
 
 // Swagger setup
@@ -53,17 +51,23 @@ const options = {
       },
     ],
   },
-  apis: ["./routes/*.js"], 
+  apis: ["./routes/*.js"],
 };
 
 const specs = swaggerJsdoc(options);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
-// // not found middleware: 
+// Add this route after swagger specs are generated
+app.get("/api-docs.json", (req, res) => {
+  res.setHeader("Content-Type", "application/json");
+  res.send(specs);
+});
+
+// // not found middleware:
 app.use(notFound);
 
 // // error Handler:
-app.use(errorHandler); 
+app.use(errorHandler);
 
 // Start server
 const PORT = process.env.PORT || 3000;
