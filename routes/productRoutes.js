@@ -14,7 +14,7 @@ const router = express.Router();
  * /api/products:
  *   get:
  *     summary: Display all the products
- *     tags: [Products]
+ *     tags: [Product]
  *     responses:
  *       200:
  *         description:  List of products successfully retrieved
@@ -26,7 +26,7 @@ router.get("/", getProducts);
  * /api/products/{id}:
  *   get:
  *     summary: Display a product by ID
- *     tags: [Products]
+ *     tags: [Product]
  *     parameters:
  *       - in: path
  *         name: id
@@ -46,7 +46,7 @@ router.get("/:id", getProductById);
  * /api/products:
  *   post:
  *     summary: Create a new product
- *     tags: [Products]
+ *     tags: [Product]
  *     requestBody:
  *       required: true
  *       content:
@@ -81,7 +81,7 @@ router.post("/", createProduct);
  * /api/products/{id}:
  *   put:
  *     summary: Update an existing product
- *     tags: [Products]
+ *     tags: [Product]
  *     parameters:
  *       - in: path
  *         name: id
@@ -124,7 +124,7 @@ router.put("/:id", updateProduct);
  * /api/products/{id}:
  *   delete:
  *     summary: Delete a product by ID
- *     tags: [Products]
+ *     tags: [Product]
  *     parameters:
  *       - in: path
  *         name: id
@@ -144,7 +144,7 @@ router.delete("/:id", deleteProduct);
  * /api/products/search/{type}/{content}:
  *   get:
  *     summary: Search for products by category, name, max price, min price
- *     tags: [Products]
+ *     tags: [Product]
  *     parameters:
  *       - in: path
  *         name: type
