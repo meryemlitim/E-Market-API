@@ -47,7 +47,8 @@ const options = {
     },
     servers: [
       {
-        url: "http://localhost:3000",
+        // url: "http://localhost:3000",
+        url: process.env.API_URL,
       },
     ],
   },
